@@ -124,10 +124,10 @@
 </template>
 
 <script setup lang="ts">
-import { MittEnum, PluginEnum } from '@/enums'
+import { PluginEnum } from '@/enums'
 import { pluginsList } from '@/layout/left/config.tsx'
 import { usePluginsStore } from '@/stores/plugins.ts'
-import Mitt from '@/utils/Bus'
+import { emit } from '@tauri-apps/api/event'
 
 const pluginsStore = usePluginsStore()
 const { plugins } = storeToRefs(pluginsStore)
@@ -173,7 +173,7 @@ const handleDelete = (p: STO.Plugins<PluginEnum>) => {
     setTimeout(() => {
       pluginsStore.updatePlugin({ ...plugin, isAdd: false })
       p.isAdd = false
-      Mitt.emit(MittEnum.HOME_WINDOW_RESIZE)
+      emit('startResize')
     }, 300)
   }
 }
@@ -184,7 +184,7 @@ const handleAdd = (p: STO.Plugins<PluginEnum>) => {
     setTimeout(() => {
       pluginsStore.updatePlugin({ ...plugin, isAdd: true })
       p.isAdd = true
-      Mitt.emit(MittEnum.HOME_WINDOW_RESIZE)
+      emit('startResize')
     }, 300)
   }
 }
@@ -224,14 +224,13 @@ const updateHoverClasses = () => {
 onMounted(() => {
   allPlugins.value = pluginsList.value.map((i) => {
     const p = plugins.value.find((z) => z.title === i.title)
-    if (p) {
-      return {
-        ...i,
-        state: p.state,
-        isAdd: p.isAdd
-      }
-    }
-    return i
+    return p
+      ? {
+          ...i,
+          state: p.state,
+          isAdd: p.isAdd
+        }
+      : i
   })
   updateHoverClasses()
   window.addEventListener('click', closeMenu, true)
