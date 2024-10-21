@@ -11,7 +11,8 @@ const { logout } = useLogin()
 /** 下半部分操作栏配置 */
 const itemsBottom: OPT.L.Common[] = [
   {
-    title: '邮件',
+    title: '邮件列表',
+    shortTitle: '邮件',
     url: 'mail',
     icon: 'mail',
     iconAction: 'mail-action',
@@ -25,6 +26,7 @@ const itemsBottom: OPT.L.Common[] = [
   },
   {
     title: '文件管理器',
+    shortTitle: '文件',
     url: 'mail',
     icon: 'file',
     iconAction: 'file-action',
@@ -37,7 +39,8 @@ const itemsBottom: OPT.L.Common[] = [
     }
   },
   {
-    title: '收藏',
+    title: '收藏列表',
+    shortTitle: '收藏',
     url: 'mail',
     icon: 'collect',
     iconAction: 'collect-action',
@@ -96,7 +99,8 @@ const pluginsList = ref<STO.Plugins<PluginEnum>[]>([
   {
     url: 'dynamic',
     icon: 'fire',
-    title: '动态',
+    title: '动态列表',
+    shortTitle: '动态',
     iconAction: 'fire-action',
     state: PluginEnum.BUILTIN,
     isAdd: true,
@@ -108,13 +112,15 @@ const pluginsList = ref<STO.Plugins<PluginEnum>[]>([
     },
     window: {
       resizable: false
-    }
+    },
+    miniShow: false
   },
   {
     icon: 'robot',
     iconAction: 'GPT',
     url: 'robot',
     title: 'ChatBot',
+    shortTitle: 'ChatBot',
     tip: 'ChatBot新应用上线',
     state: PluginEnum.NOT_INSTALLED,
     version: 'v2.0.0-Beta',
@@ -128,12 +134,14 @@ const pluginsList = ref<STO.Plugins<PluginEnum>[]>([
     },
     window: {
       resizable: true
-    }
+    },
+    miniShow: false
   },
   {
     icon: 'Music',
     url: 'music',
     title: 'HuLa云音乐',
+    shortTitle: '云音乐',
     tip: 'HuLa云音乐开发中，敬请期待',
     state: PluginEnum.NOT_INSTALLED,
     version: 'v1.0.0-Alpha',
@@ -147,12 +155,14 @@ const pluginsList = ref<STO.Plugins<PluginEnum>[]>([
     },
     window: {
       resizable: true
-    }
+    },
+    miniShow: false
   },
   {
     icon: 'UimSlack',
     url: 'collaboration',
     title: 'HuLa协作',
+    shortTitle: '协作',
     tip: 'HuLa协作开发中，敬请期待',
     state: PluginEnum.NOT_INSTALLED,
     version: 'v1.0.0-Alpha',
@@ -166,12 +176,14 @@ const pluginsList = ref<STO.Plugins<PluginEnum>[]>([
     },
     window: {
       resizable: true
-    }
+    },
+    miniShow: false
   },
   {
     icon: 'vigo',
     url: 'collaboration',
     title: 'HuLa短视频',
+    shortTitle: '短视频',
     tip: 'HuLa短视频开发中，敬请期待',
     state: PluginEnum.NOT_INSTALLED,
     version: 'v1.0.0-Alpha',
@@ -185,7 +197,8 @@ const pluginsList = ref<STO.Plugins<PluginEnum>[]>([
     },
     window: {
       resizable: true
-    }
+    },
+    miniShow: false
   }
 ])
 
