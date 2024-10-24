@@ -6,8 +6,9 @@
         v-for="(item, index) in menuTop"
         :key="index"
         :class="[
-          { active: activeUrl === item.url && item.url !== 'dynamic' },
-          openWindowsList.has(item.url) ? 'p-[6px_8px] color-[--left-win-icon-color]' : 'top-action'
+          { active: activeUrl === item.url },
+          openWindowsList.has(item.url) ? 'color-[--left-win-icon-color]' : 'top-action flex-col-center',
+          showMode === ShowModeEnum.ICON ? 'p-[6px_8px]' : 'w-46px py-4px'
         ]"
         style="text-align: center"
         @click="pageJumps(item.url, item.title, item.size, item.window)"
@@ -48,7 +49,7 @@
               :href="`#${activeUrl === item.url || openWindowsList.has(item.url) ? item.iconAction : item.icon}`"></use>
           </svg>
         </n-badge>
-        <p v-if="showMode === ShowModeEnum.TEXT && item.title" style="text-align: center; font-size: x-small">
+        <p v-if="showMode === ShowModeEnum.TEXT && item.title" class="text-(10px center)">
           {{ item.shortTitle }}
         </p>
       </div>
@@ -57,8 +58,9 @@
         v-for="(item, index) in noMiniShowPlugins"
         :key="index"
         :class="[
-          { active: activeUrl === item.url && item.url !== 'dynamic' },
-          openWindowsList.has(item.url) ? 'p-[6px_8px] color-[--left-win-icon-color]' : 'top-action'
+          { active: activeUrl === item.url },
+          openWindowsList.has(item.url) ? 'color-[--left-win-icon-color]' : 'top-action flex-col-center',
+          showMode === ShowModeEnum.ICON ? 'p-[6px_8px]' : 'w-46px py-4px'
         ]"
         style="text-align: center"
         @click="pageJumps(item.url, item.title, item.size, item.window)"
@@ -99,13 +101,14 @@
               :href="`#${activeUrl === item.url || openWindowsList.has(item.url) ? item.iconAction : item.icon}`"></use>
           </svg>
         </n-badge>
-        <p v-if="showMode === ShowModeEnum.TEXT && item.title" style="text-align: center; font-size: x-small">
+        <p v-if="showMode === ShowModeEnum.TEXT && item.title" class="text-(10px center)">
           {{ item.shortTitle }}
         </p>
       </div>
 
       <!-- (独立)菜单选项 -->
-      <div class="top-action">
+      <div
+        :class="showMode === ShowModeEnum.ICON ? 'top-action p-[6px_8px]' : 'top-action w-46px py-4px flex-col-center'">
         <n-popover
           style="padding: 8px; margin-left: 4px; background: var(--bg-setting-item)"
           :show-arrow="false"
@@ -117,40 +120,43 @@
             </svg>
           </template>
           <div v-if="miniShowPlugins.length">
-            <div
+            <n-flex
               v-for="(item, index) in miniShowPlugins as any"
               :key="'excess-' + index"
-              @click="
-                () => {
-                  console.log(item.title)
-                }
-              "
-              class="p-[6px_10px] rounded-4px cursor-pointer hover:bg-[--setting-item-line]">
+              @click="pageJumps(item.url, item.title, item.size, item.window)"
+              class="p-[6px_5px] rounded-4px cursor-pointer hover:bg-[--setting-item-line]"
+              :size="5">
+              <svg class="size-16px" @click="tipShow = false">
+                <use :href="`#${item.icon}`"></use>
+              </svg>
               {{ item.title }}
-            </div>
+            </n-flex>
           </div>
           <n-flex
             @click="menuShow = true"
-            class="p-[6px_10px] rounded-4px cursor-pointer hover:bg-[--setting-item-line]"
-            align="center"
-            justify="space-between"
-            :size="10">
+            class="p-[6px_5px] rounded-4px cursor-pointer hover:bg-[--setting-item-line]"
+            :size="5">
             <svg class="size-16px">
               <use href="#settings"></use>
             </svg>
-            <p class="select-none">插件管理</p>
+            <!-- <span class="select-none">插件管理</span> -->
+            插件管理
           </n-flex>
         </n-popover>
-        <p v-if="showMode === ShowModeEnum.TEXT" style="text-align: center; font-size: x-small">插件</p>
+        <p v-if="showMode === ShowModeEnum.TEXT" class="text-(10px center)">插件</p>
       </div>
     </header>
 
     <!-- 下部分操作栏 -->
-    <footer class="flex-col-x-center gap-10px color-[--left-icon-color] select-none">
+    <footer class="flex-col-x-center mt-10px gap-10px color-[--left-icon-color] select-none">
       <div
         v-for="(item, index) in itemsBottom"
         :key="index"
-        :class="openWindowsList.has(item.url) ? 'p-[6px_8px] color-[--left-win-icon-color]' : 'bottom-action'"
+        :class="[
+          { active: activeUrl === item.url },
+          openWindowsList.has(item.url) ? 'color-[--left-win-icon-color]' : 'bottom-action flex-col-center',
+          showMode === ShowModeEnum.ICON ? 'p-[6px_8px]' : 'w-46px py-4px'
+        ]"
         style="text-align: center"
         @click="pageJumps(item.url, item.title, item.size, item.window)"
         :title="item.title">
@@ -190,16 +196,13 @@
               :href="`#${activeUrl === item.url || openWindowsList.has(item.url) ? item.iconAction : item.icon}`"></use>
           </svg>
         </n-badge>
-        <p
-          v-if="showMode === ShowModeEnum.TEXT && item.title"
-          class="menu-text"
-          style="text-align: center; font-size: x-small">
+        <p v-if="showMode === ShowModeEnum.TEXT && item.title" class="menu-text text-(10px center)">
           {{ item.shortTitle }}
         </p>
       </div>
 
       <!--  更多选项面板  -->
-      <div title="更多" :class="{ 'bottom-action': showMode === ShowModeEnum.TEXT }">
+      <div title="更多" :class="{ 'bottom-action py-4px': showMode === ShowModeEnum.TEXT }">
         <n-popover
           v-model:show="settingShow"
           style="padding: 0; background: transparent; user-select: none"
@@ -207,7 +210,10 @@
           trigger="click">
           <template #trigger>
             <svg
-              :class="[{ 'color-[--left-active-hover]': settingShow }, { more: showMode !== ShowModeEnum.TEXT }]"
+              :class="[
+                { 'color-[--left-active-hover]': settingShow },
+                showMode === ShowModeEnum.ICON ? 'more p-[6px_8px]' : 'w-46px'
+              ]"
               class="size-22px relative"
               @click="settingShow = !settingShow">
               <use :href="settingShow ? '#hamburger-button-action' : '#hamburger-button'"></use>
@@ -226,7 +232,7 @@
             </div>
           </div>
         </n-popover>
-        <p v-if="showMode === ShowModeEnum.TEXT" style="text-align: center; font-size: x-small">更多</p>
+        <p v-if="showMode === ShowModeEnum.TEXT" class="text-(10px center)">更多</p>
       </div>
     </footer>
   </div>
@@ -309,8 +315,8 @@ const handleResize = async (e: Event) => {
 }
 
 /** 调整主界面高度 */
-const setHomeHeight = async () => {
-  invoke('set_height', { height: showMode.value === ShowModeEnum.TEXT ? 495 : 423 })
+const setHomeHeight = () => {
+  invoke('set_height', { height: showMode.value === ShowModeEnum.TEXT ? 505 : 423 })
 }
 
 onMounted(() => {
