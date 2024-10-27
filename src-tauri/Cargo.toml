@@ -1,6 +1,6 @@
 [package]
 name = "hula"
-version = "2.4.0"
+version = "2.5.0"
 description = "hula"
 authors = ["nongyehong"]
 license = ""
@@ -33,6 +33,7 @@ tauri-plugin-dialog = "2.0.1"
 tauri-plugin-upload = "2.0.1"
 tauri-plugin-global-shortcut = "2.0.1"
 tauri-plugin-clipboard-manager = "2.0.1"
+tauri-plugin-updater = "2"
 [target."cfg(not(any(target_os = \"android\", target_os = \"ios\")))".dependencies]
 tauri-plugin-autostart = "2.0.1"
 lazy_static = "1.4"
@@ -42,8 +43,8 @@ rodio = "0.17.3"
 
 [features]
 # by default Tauri runs in production mode
-# when `tauri dev` runs it is executed with `cargo run --no-default-features` if `devPath` is an URL
+# when `tauri dev` runs it is executed with `cargo run --no-default-features` if `devPath` is a URL
 default = ["custom-protocol"]
-# this feature is used used for production builds where `devPath` points to the filesystem
+# this feature is used for production builds where `devPath` points to the filesystem
 # DO NOT remove this
 custom-protocol = ["tauri/custom-protocol"]

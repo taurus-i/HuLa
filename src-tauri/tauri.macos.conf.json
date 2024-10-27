@@ -1,6 +1,6 @@
 {
   "productName": "HuLa",
-  "version": "2.4.0",
+  "version": "2.5.0",
   "identifier": "com.tauri.build",
   "build": {
     "beforeDevCommand": "pnpm dev",
@@ -13,7 +13,9 @@
       "tray"
     ],
     "active": true,
-    "targets": ["dmg"],
+    "targets": [
+      "app"
+    ],
     "icon": [
       "icons/macos/32x32.png",
       "icons/macos/128x128.png",

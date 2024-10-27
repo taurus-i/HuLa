@@ -41,11 +41,11 @@ export const leftHook = () => {
   // TODO 这里考虑是否查接口查实时的用户信息还是直接查本地存储的用户信息 (nyh -> 2024-05-05 01:12:36)
   const editInfo = ref<{
     show: boolean
-    content: Partial<UserInfoType>
+    content: UserInfoType
     badgeList: BadgeType[]
   }>({
     show: false,
-    content: {},
+    content: {} as UserInfoType,
     badgeList: []
   })
   /** 当前用户佩戴的徽章  */
@@ -120,9 +120,9 @@ export const leftHook = () => {
       window.$message.error('改名次数不足')
       return
     }
-    apis.modifyUserName(editInfo.value.content.name).then((res) => {
-      if (!res.success) {
-        window.$message.error(res.errMsg)
+    apis.modifyUserName(editInfo.value.content.name).then((res: any) => {
+      if (!res) {
+        window.$message.error(res)
         return
       }
       // 更新本地缓存的用户信息
@@ -137,12 +137,12 @@ export const leftHook = () => {
   /** 佩戴徽章 */
   const toggleWarningBadge = async (badge: BadgeType) => {
     if (!badge?.id) return
-    const res = await apis.setUserBadge(badge.id)
-    if (res.success) {
+    const res: any = await apis.setUserBadge(badge.id)
+    if (res) {
       window.$message.success('佩戴成功')
       /** 获取用户信息 */
       apis.getUserInfo().then((res) => {
-        editInfo.value.content = res.data
+        editInfo.value.content = res as any
       })
     }
   }

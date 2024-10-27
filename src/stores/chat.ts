@@ -141,13 +141,11 @@ export const useChatStore = defineStore('chat', () => {
 
   const getMsgList = async (size = pageSize) => {
     currentMessageOptions.value && (currentMessageOptions.value.isLoading = true)
-    const { data } = await apis
+    const data = await apis
       .getMsgList({
-        params: {
-          pageSize: size,
-          cursor: currentMessageOptions.value?.cursor,
-          roomId: currentRoomId.value
-        }
+        pageSize: size,
+        cursor: currentMessageOptions.value?.cursor,
+        roomId: currentRoomId.value
       })
       .finally(() => {
         currentMessageOptions.value && (currentMessageOptions.value.isLoading = false)
@@ -200,7 +198,7 @@ export const useChatStore = defineStore('chat', () => {
         sessionOptions.isLoading = false
       })
     if (!response) return
-    const { data } = response
+    const data = response
     if (!data) {
       return
     }
@@ -281,7 +279,7 @@ export const useChatStore = defineStore('chat', () => {
         detailResponse = await apis.sessionDetail({ id: msg.message.roomId })
       }
       if (detailResponse) {
-        const { data } = detailResponse
+        const data = detailResponse
         updateSessionLastActiveTime(msg.message.roomId, data)
       }
     }
