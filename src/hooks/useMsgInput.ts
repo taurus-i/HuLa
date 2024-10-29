@@ -1,17 +1,17 @@
 import { LimitEnum, MittEnum, MsgEnum } from '@/enums'
-import { Ref } from 'vue'
-import { CacheUserItem } from '@/services/types.ts'
-import { useSettingStore } from '@/stores/setting.ts'
-import { useDebounceFn } from '@vueuse/core'
-import Mitt from '@/utils/Bus.ts'
-import { useCommon } from './useCommon.ts'
-import { RegExp } from '@/utils/RegExp.ts'
-import apis from '@/services/apis.ts'
-import { useGlobalStore } from '@/stores/global.ts'
-import { useChatStore } from '@/stores/chat.ts'
 import { useUserInfo } from '@/hooks/useCached.ts'
+import apis from '@/services/apis.ts'
+import { CacheUserItem } from '@/services/types.ts'
 import { useCachedStore } from '@/stores/cached.ts'
+import { useChatStore } from '@/stores/chat.ts'
+import { useGlobalStore } from '@/stores/global.ts'
+import { useSettingStore } from '@/stores/setting.ts'
+import Mitt from '@/utils/Bus.ts'
+import { RegExp } from '@/utils/RegExp.ts'
 import { type } from '@tauri-apps/plugin-os'
+import { useDebounceFn } from '@vueuse/core'
+import { Ref } from 'vue'
+import { useCommon } from './useCommon.ts'
 
 export const useMsgInput = (messageInputDom: Ref) => {
   const chatStore = useChatStore()
@@ -215,7 +215,15 @@ export const useMsgInput = (messageInputDom: Ref) => {
   /** 当输入框手动输入值的时候触发input事件(使用vueUse的防抖) */
   const handleInput = useDebounceFn(async (e: Event) => {
     const inputElement = e.target as HTMLInputElement
-    msgInput.value = inputElement.innerHTML
+    console.log('input', inputElement)
+    // 如果输入框中只有<br />标签，则清空输入框内容
+    // TODO: 为什么这里输入后会有一个br标签?
+    if (inputElement.innerHTML === '<br>') {
+      inputElement.innerHTML = ''
+      msgInput.value = inputElement.innerHTML
+      return
+    }
+    msgInput.value = inputElement.innerHTML || ''
     const { range, selection } = getEditorRange()!
     /** 获取当前光标所在的节点和文本内容 */
     if (!range || !selection) {
@@ -248,13 +256,15 @@ export const useMsgInput = (messageInputDom: Ref) => {
       await nextTick(() => {
         const dom = document.querySelector('.ait') as HTMLElement
         dom.style.position = 'fixed'
+        dom.style.height = 'auto'
+        dom.style.maxHeight = '190px'
         dom.style.left = `${res.x - 20}px`
         dom.style.top = `${res.y - (dom.offsetHeight + 5)}px`
       })
     } else {
       ait.value = false
     }
-  }, 100)
+  }, 10) // 防抖时间过长会导致输入内容已经显示但是实际还没有进入到这里进行处理
 
   /** input的keydown事件 */
   const inputKeyDown = (e: KeyboardEvent) => {
