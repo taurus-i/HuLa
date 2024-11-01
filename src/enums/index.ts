@@ -75,7 +75,8 @@ export enum MittEnum {
   /** 左边菜单弹窗 */
   LEFT_MODAL_SHOW,
   /** 触发home窗口事件 */
-  HOME_WINDOW_RESIZE
+  HOME_WINDOW_RESIZE,
+  SHOW_CENTER
 }
 
 /** 主题类型 */

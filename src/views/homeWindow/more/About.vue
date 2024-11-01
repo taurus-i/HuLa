@@ -9,9 +9,13 @@
           <div
             style="background: rgba(111, 111, 111, 0.1)"
             class="w-170px h-113px absolute top-9% left-51% transform -translate-x-51% -translate-y-9%"></div>
-          <img
+          <!-- <img
             class="drop-shadow-md absolute top-30% left-1/2 transform -translate-x-1/2 -translate-y-30% w-140px h-60px"
             src="@/assets/logo/hula.png"
+            alt="" /> -->
+          <img
+            class="drop-shadow-md absolute top-21% left-1/2 transform -translate-x-1/2 -translate-y-30% w-140px h-140px"
+            src="@/assets/logo/satoshi.png"
             alt="" />
         </div>
       </div>
@@ -20,7 +24,7 @@
         <span class="text-(15px #707070)">版本：{{ _pkg.version }}({{ osArch }})</span>
         <span class="text-(15px #707070)">当前设备：{{ osType }}{{ osVersion }}</span>
         <n-flex vertical class="text-(12px #909090)" :size="8" align="center">
-          <span>Copyright © {{ currentYear - 1 }}-{{ currentYear }} HuLaSpark</span>
+          <span>Copyright © {{ currentYear - 1 }}-{{ currentYear }}</span>
           <span>All Rights Reserved.</span>
         </n-flex>
       </n-flex>

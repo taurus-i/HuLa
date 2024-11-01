@@ -16,12 +16,12 @@
       </div>
     </div>
 
-    <ActionBar
+    <!-- <ActionBar
       class="absolute right-0 w-full"
       v-if="shrinkStatus"
       :shrink-status="!shrinkStatus"
       :max-w="false"
-      :current-label="appWindow.label" />
+      :current-label="appWindow.label" /> -->
 
     <!-- 顶部搜索栏 -->
     <header
@@ -81,13 +81,13 @@
 import Mitt from '@/utils/Bus.ts'
 import router from '@/router'
 import { MittEnum } from '@/enums'
-import { WebviewWindow } from '@tauri-apps/api/webviewWindow'
+// import { WebviewWindow } from '@tauri-apps/api/webviewWindow'
 import { useWindowSize } from '@vueuse/core'
 import { useSettingStore } from '@/stores/setting.ts'
 
 const settingStore = useSettingStore()
 const { page } = storeToRefs(settingStore)
-const appWindow = WebviewWindow.getCurrent()
+// const appWindow = WebviewWindow.getCurrent()
 /** 设置最小宽度 */
 const minWidth = 160
 /** 设置最大宽度 */
@@ -128,23 +128,24 @@ const startWidth = ref()
 const shrinkStatus = ref(false)
 const isDragging = ref(false)
 
-watchEffect(() => {
-  if (width.value >= 310 && width.value < 800) {
-    Mitt.emit(MittEnum.SHRINK_WINDOW, true)
-    const center = document.querySelector('#center')
-    center?.classList.add('flex-1')
-    isDrag.value = false
-  }
-  if (width.value >= 800) {
-    Mitt.emit(MittEnum.SHRINK_WINDOW, false)
-    if (currentMsg.value) {
-      Mitt.emit(MittEnum.MSG_BOX_SHOW, { msgBoxShow: true, ...currentMsg.value })
-    }
-    const center = document.querySelector('#center')
-    center?.classList.remove('flex-1')
-    isDrag.value = true
-  }
-})
+// watchEffect(() => {
+// if (width.value >= 310 && width.value < 800) {
+// Mitt.emit(MittEnum.SHRINK_WINDOW, true)
+// const center = document.querySelector('#center')
+// center?.classList.add('flex-1')
+// isDrag.value = false
+// }
+// if (width.value >= 800) {
+//   Mitt.emit(MittEnum.SHOW_CENTER, true)
+//   Mitt.emit(MittEnum.SHRINK_WINDOW, false)
+//   if (currentMsg.value) {
+//     Mitt.emit(MittEnum.MSG_BOX_SHOW, { msgBoxShow: true, ...currentMsg.value })
+//   }
+//   const center = document.querySelector('#center')
+//   center?.classList.remove('flex-1')
+//   isDrag.value = true
+// }
+// })
 
 const handleSearchFocus = () => {
   router.push('/searchDetails')

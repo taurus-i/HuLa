@@ -9,15 +9,16 @@
     <n-flex vertical :size="25" v-if="!isAutoLogin" data-tauri-drag-region>
       <!-- 头像 -->
       <n-flex justify="center" class="w-full pt-35px" data-tauri-drag-region>
-        <img
+        <!-- <img
           class="w-80px h-80px rounded-50% bg-#b6d6d9ff border-(2px solid #fff)"
           :src="info.avatar || '/logo.png'"
-          alt="" />
+          alt="" /> -->
+        <img class="w-80px h-80px rounded-50% bg-transparent border-(2px solid #fff)" src="/logo.png" alt="" />
       </n-flex>
 
       <!-- 登录菜单 -->
       <n-flex class="ma text-center h-full w-260px" vertical :size="16" data-tauri-drag-region>
-        <n-input
+        <!-- <n-input
           style="padding-left: 20px"
           size="large"
           maxlength="16"
@@ -27,6 +28,27 @@
           :placeholder="accountPH"
           @focus="accountPH = ''"
           @blur="accountPH = '输入HuLa账号'"
+          clearable>
+          <template #suffix>
+            <n-flex @click="arrowStatus = !arrowStatus">
+              <svg v-if="!arrowStatus" class="down w-18px h-18px color-#505050 cursor-pointer">
+                <use href="#down"></use>
+              </svg>
+              <svg v-else class="down w-18px h-18px color-#505050 cursor-pointer"><use href="#up"></use></svg>
+            </n-flex>
+          </template>
+        </n-input> -->
+
+        <n-input
+          style="padding-left: 20px"
+          size="large"
+          maxlength="16"
+          minlength="6"
+          v-model:value="info.account"
+          type="text"
+          :placeholder="accountPH"
+          @focus="accountPH = ''"
+          @blur="accountPH = '输入账号'"
           clearable>
           <template #suffix>
             <n-flex @click="arrowStatus = !arrowStatus">
@@ -69,7 +91,7 @@
           type="password"
           :placeholder="passwordPH"
           @focus="passwordPH = ''"
-          @blur="passwordPH = '输入HuLa密码'"
+          @blur="passwordPH = '输入密码'"
           clearable />
 
         <!-- 协议 -->
@@ -79,7 +101,7 @@
             <span>已阅读并同意</span>
             <span class="color-#13987f cursor-pointer">服务协议</span>
             <span>和</span>
-            <span class="color-#13987f cursor-pointer">HuLa隐私保护指引</span>
+            <span class="color-#13987f cursor-pointer">隐私保护指引</span>
           </div>
         </n-flex>
 
@@ -97,7 +119,7 @@
     <!-- 自动登录样式 -->
     <n-flex vertical :size="29" v-else data-tauri-drag-region>
       <n-flex justify="center" class="mt-15px">
-        <img src="@/assets/logo/hula.png" class="w-140px h-60px" alt="" />
+        <img src="/logo.png" class="w-140px h-60px" alt="" />
       </n-flex>
 
       <n-flex :size="30" vertical>
@@ -130,10 +152,11 @@
 
     <!-- 底部操作栏 -->
     <n-flex justify="center" class="text-14px" id="bottomBar" data-tauri-drag-region>
-      <div class="color-#13987f cursor-pointer" @click="router.push('/qrCode')">扫码登录</div>
+      <!-- <div class="color-#13987f cursor-pointer" @click="router.push('/qrCode')">扫码登录</div> -->
+      <div class="color-#13987f cursor-pointer">扫码登录</div>
       <div class="w-1px h-14px bg-#ccc"></div>
       <div v-if="isAutoLogin" class="color-#13987f cursor-pointer">移除账号</div>
-      <n-popover v-else trigger="click" :show-checkmark="false" :show-arrow="false">
+      <n-popover v-else trigger="click" :show-checkmark="false" :show-arrow="false" disabled>
         <template #trigger>
           <div class="color-#13987f cursor-pointer">更多选项</div>
         </template>
@@ -146,7 +169,7 @@
   </n-config-provider>
 </template>
 <script setup lang="ts">
-import router from '@/router'
+// import router from '@/router'
 import { useWindow } from '@/hooks/useWindow.ts'
 import { delay } from 'lodash-es'
 import { lightTheme } from 'naive-ui'
@@ -161,9 +184,9 @@ const { loginHistories } = loginHistoriesStore
 const { login } = storeToRefs(settingStore)
 /** 账号信息 */
 const info = ref({
-  account: '',
-  password: '',
-  avatar: '',
+  account: 'foobar.i',
+  password: '123456',
+  avatar: '/logo.png',
   name: '',
   uid: 0
 })
@@ -176,8 +199,8 @@ const loading = ref(false)
 const arrowStatus = ref(false)
 const isAutoLogin = ref(false)
 const { setLoginState } = useLogin()
-const accountPH = ref('输入HuLa账号')
-const passwordPH = ref('输入HuLa密码')
+const accountPH = ref('输入账号')
+const passwordPH = ref('输入密码')
 /** 登录按钮的文本内容 */
 const loginText = ref('登录')
 const { createWebviewWindow } = useWindow()

@@ -49,6 +49,7 @@
     "dayjs": "^1.11.11",
     "grapheme-splitter": "^1.0.4",
     "lodash-es": "^4.17.21",
+    "lucide-vue-next": "^0.454.0",
     "mitt": "^3.0.1",
     "naive-ui": "^2.40.1",
     "pinia": "^2.2.1",

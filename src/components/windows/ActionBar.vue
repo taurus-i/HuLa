@@ -3,6 +3,44 @@
   <div
     data-tauri-drag-region
     :class="osType === 'windows' ? 'flex justify-end select-none' : 'h-24px select-none w-full'">
+    <div
+      data-tauri-drag-region
+      v-if="isChat || isDetails || isSearchDetails"
+      class="flex items-center gap-30px p-[12px]">
+      <div class="flex items-center gap-20px">
+        <svg @click="handleShowCenter" class="size-16px color-[--action-bar-icon-color] cursor-pointer">
+          <use href="#left-bar"></use>
+        </svg>
+        <svg class="size-14px color-[--action-bar-icon-color] outline-none cursor-pointer rotate-180">
+          <use href="#arrow-right"></use>
+        </svg>
+        <svg class="size-14px color-[--action-bar-icon-color] outline-none cursor-pointer">
+          <use href="#arrow-right"></use>
+        </svg>
+        <svg class="size-14px color-[--action-bar-icon-color] outline-none cursor-pointer">
+          <use href="#refresh"></use>
+        </svg>
+      </div>
+      <div class="flex w-full">
+        <n-input
+          id="search"
+          v-model:value="searchValue"
+          @focus="() => {}"
+          @blur="() => {}"
+          class="rounded-6px w-full relative text-12px"
+          style="background: var(--search-bg-color)"
+          clearable
+          size="small"
+          placeholder="Search OONS or Enter URL">
+          <template #prefix>
+            <svg class="w-14px h-14px color-[--action-bar-icon-color]"><use href="#search"></use></svg>
+          </template>
+          <template #suffix>
+            <CircleHelp :size="14" class="color-[--action-bar-icon-color] cursor-pointer" />
+          </template>
+        </n-input>
+      </div>
+    </div>
     <template v-if="osType === 'windows'">
       <!--  固定在最顶层  -->
       <div v-if="topWinLabel !== void 0" @click="handleAlwaysOnTop" class="hover-box">
@@ -87,6 +125,11 @@ import { CloseBxEnum, EventEnum, MittEnum } from '@/enums'
 import { PersistedStateOptions } from 'pinia-plugin-persistedstate'
 import { exit } from '@tauri-apps/plugin-process'
 import { type } from '@tauri-apps/plugin-os'
+import router from '@/router'
+import { CircleHelp } from 'lucide-vue-next'
+import { size } from 'lodash-es'
+
+const OONS = 'oons://'
 
 const appWindow = WebviewWindow.getCurrent()
 const {
@@ -114,6 +157,8 @@ const tipsRef = reactive({
   notTips: tips.value.notTips,
   show: false
 })
+const searchValue = ref('')
+const isCenterVisible = ref(true)
 // 窗口是否最大化状态
 const windowMaximized = ref(false)
 // 窗口是否置顶状态
@@ -121,9 +166,41 @@ const alwaysOnTopStatus = computed(() => {
   if (topWinLabel === void 0) return false
   return getWindowTop(topWinLabel)
 })
+// 判断当前路由是否是聊天界面
+const isChat = computed(() => {
+  console.log('', router.currentRoute)
+  return router.currentRoute.value.path.includes('/message')
+})
+// 判断当前路由是否是信息详情界面
+const isDetails = computed(() => {
+  return router.currentRoute.value.path.includes('/friendsList')
+})
+
+const isSearchDetails = computed(() => {
+  return router.currentRoute.value.path.includes('/searchDetails')
+})
+
 /** 判断当前是windows还是mac系统 */
 const osType = ref()
-
+watch(searchValue, (newVal, oldVal) => {
+  if (!newVal) {
+    return
+  }
+  // 如果输入值为OONS，隐藏OONS
+  if (newVal === OONS && oldVal.length > OONS.length) {
+    searchValue.value = ''
+    return
+  }
+  // 如果输入的字符数小于OONS的长度，直接设为OONS
+  if (newVal.length < OONS.length) {
+    searchValue.value = `${OONS}${newVal}`
+    return
+  }
+  // 当输入不以OONS开头时，添加前缀
+  if (!newVal.startsWith(OONS)) {
+    searchValue.value = `${OONS}${newVal}`
+  }
+})
 watchEffect(() => {
   tipsRef.type = tips.value.type
   if (alwaysOnTopStatus.value) {
@@ -145,6 +222,11 @@ watchEffect(() => {
     window.removeEventListener('keydown', (e) => isEsc(e))
   }
 })
+
+const handleShowCenter = () => {
+  isCenterVisible.value = !isCenterVisible.value
+  Mitt.emit(MittEnum.SHOW_CENTER, isCenterVisible.value)
+}
 
 /** 恢复窗口大小 */
 const restoreWindow = async () => {
