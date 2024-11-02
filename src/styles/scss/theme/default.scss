@@ -2,7 +2,8 @@
 :root {
   .default {
     // 侧边栏样式
-    --left-bg-color: #64a29c;
+    // --left-bg-color: #64a29c;
+    --left-bg-color: #6757c6;
     --left-active-bg-color: rgba(222, 222, 222, 0.2);
     --left-text-color: #e3e3e3;
     --left-icon-color: #e3e3e3;
@@ -15,11 +16,12 @@
     --border-active-color: #64a29c;
 
     // 右边布局内容背景
-    --right-theme-bg-color: radial-gradient(
-      circle at top left,
-      rgba(255, 209, 255, 0.3) 4%,
-      rgba(130, 193, 187, 0.3) 100%
-    );
+    // --right-theme-bg-color: radial-gradient(
+    //   circle at top left,
+    //   rgba(255, 209, 255, 0.3) 4%,
+    //   rgba(130, 193, 187, 0.3) 100%
+    // );
+    --right-theme-bg-color: radial-gradient(circle at top left, #e7d6ee, #c0b5de);
 
     // 聊天框主体样式
     --right-chat-reply-color: #f1f1f1;

@@ -7,8 +7,17 @@
     trigger="click">
     <template #trigger>
       <!-- 头像 -->
-      <div class="relative size-34px rounded-50% cursor-pointer">
+      <!-- <div class="relative size-34px rounded-50% cursor-pointer">
         <n-avatar :color="'#fff'" :size="34" :src="login.accountInfo.avatar" fallback-src="/logo.png" round />
+
+        <div
+          class="bg-[--left-bg-color] text-10px rounded-50% size-12px absolute bottom--2px right--2px border-(2px solid [--left-bg-color])"
+          @click.stop="openContent('在线状态', 'onlineStatus', 320, 480)">
+          <img :src="url" alt="" class="rounded-50% size-full" />
+        </div>
+      </div> -->
+      <div class="relative size-54px cursor-pointer">
+        <n-avatar :color="'transparent'" :size="54" :src="login.accountInfo.avatar" fallback-src="/logo.png" />
 
         <div
           class="bg-[--left-bg-color] text-10px rounded-50% size-12px absolute bottom--2px right--2px border-(2px solid [--left-bg-color])"
