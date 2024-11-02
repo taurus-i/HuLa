@@ -21,7 +21,7 @@
     //   rgba(255, 209, 255, 0.3) 4%,
     //   rgba(130, 193, 187, 0.3) 100%
     // );
-    --right-theme-bg-color: radial-gradient(circle at top left, #e7d6ee, #c0b5de);
+    --right-theme-bg-color: radial-gradient(circle at top left, #e9eaff, #ffffff, #e9eaff, #ffffff);
 
     // 聊天框主体样式
     --right-chat-reply-color: #f1f1f1;
@@ -55,11 +55,13 @@ html[data-theme='dark'] {
     --border-active-color: #64a29c;
 
     // 右边布局内容背景
-    --right-theme-bg-color: radial-gradient(
-      circle at top left,
-      rgba(255, 209, 255, 0.2) 4%,
-      rgba(130, 193, 187, 0.2) 100%
-    );
+    // --right-theme-bg-color: radial-gradient(
+    //   circle at top left,
+    //   rgba(255, 209, 255, 0.2) 4%,
+    //   rgba(130, 193, 187, 0.2) 100%
+    // );
+    // --right-theme-bg-color: radial-gradient(circle at top left, #ffffff, #e9eaff);
+    --right-theme-bg-color: radial-gradient(circle at top left, #e9eaff, #ffffff, #e9eaff, #ffffff);
 
     // 聊天框主体样式
     --right-chat-reply-color: #666;
