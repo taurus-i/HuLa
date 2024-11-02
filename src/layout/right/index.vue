@@ -1,5 +1,6 @@
 <template>
-  <main data-tauri-drag-region class="flex-1 bg-[--right-bg-color] h-full w-100vw min-w-600px">
+  <!-- <main data-tauri-drag-region class="flex-1 bg-[--right-bg-color] h-full w-100vw min-w-600px"> -->
+  <main data-tauri-drag-region class="flex-1 bg-[--right-bg-color] h-full w-100vw">
     <div class="size-full" style="background: var(--right-theme-bg-color)" data-tauri-drag-region>
       <ActionBar :current-label="appWindow.label" />
       <!-- 需要判断当前路由是否是信息详情界面 -->

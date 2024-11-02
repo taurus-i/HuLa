@@ -82,7 +82,7 @@ import Mitt from '@/utils/Bus.ts'
 import router from '@/router'
 import { MittEnum } from '@/enums'
 // import { WebviewWindow } from '@tauri-apps/api/webviewWindow'
-import { useWindowSize } from '@vueuse/core'
+// import { useWindowSize } from '@vueuse/core'
 import { useSettingStore } from '@/stores/setting.ts'
 
 const settingStore = useSettingStore()
@@ -95,7 +95,7 @@ const maxWidth = 300
 /** 初始化宽度 */
 const initWidth = ref(250)
 /**! 使用(vueUse函数获取)视口宽度 */
-const { width } = useWindowSize()
+// const { width } = useWindowSize()
 /** 是否拖拽 */
 const isDrag = ref(true)
 /** 当前消息 */

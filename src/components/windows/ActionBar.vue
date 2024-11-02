@@ -21,25 +21,28 @@
           <use href="#refresh"></use>
         </svg>
       </div>
-      <div class="flex w-full">
+      <div class="flex-1">
         <n-input
           id="search"
           v-model:value="searchValue"
           @focus="() => {}"
           @blur="() => {}"
+          @keydown="openUrlInNewWindow"
           class="rounded-6px w-full relative text-12px"
           style="background: var(--search-bg-color)"
           clearable
           size="small"
           placeholder="Search OONS or Enter URL">
           <template #prefix>
-            <svg class="w-14px h-14px color-[--action-bar-icon-color]"><use href="#search"></use></svg>
-          </template>
-          <template #suffix>
-            <CircleHelp :size="14" class="color-[--action-bar-icon-color] cursor-pointer" />
+            <svg
+              class="w-14px h-14px color-[--action-bar-icon-color] cursor-pointer"
+              @click="() => openUrlInNewWindow()">
+              <use href="#search"></use>
+            </svg>
           </template>
         </n-input>
       </div>
+      <div class="m-w-100px"><CircleHelp :size="14" class="color-[--action-bar-icon-color] cursor-pointer" /></div>
     </div>
     <template v-if="osType === 'windows'">
       <!--  固定在最顶层  -->
@@ -127,7 +130,6 @@ import { exit } from '@tauri-apps/plugin-process'
 import { type } from '@tauri-apps/plugin-os'
 import router from '@/router'
 import { CircleHelp } from 'lucide-vue-next'
-import { size } from 'lodash-es'
 
 const OONS = 'oons://'
 
@@ -226,6 +228,28 @@ watchEffect(() => {
 const handleShowCenter = () => {
   isCenterVisible.value = !isCenterVisible.value
   Mitt.emit(MittEnum.SHOW_CENTER, isCenterVisible.value)
+}
+
+async function openUrlInNewWindow(event?: { key: string }) {
+  if (!searchValue.value) return
+  if (event) {
+    if (event?.key !== 'Enter') return
+  }
+  const targetUrl = searchValue.value.replace(OONS, 'http://')
+  const webview = new WebviewWindow('my-label', {
+    url: targetUrl,
+    width: 960, // 使用 width 属性定义窗口宽度
+    height: 720 // 使用 height 属性定义窗口高度
+  })
+  console.log('webview:', webview)
+  // `webview` 进行配置或事件监听
+  webview.once('tauri://created', function () {
+    // webview successfully created
+  })
+  webview.once('tauri://error', function (error) {
+    console.log('Create webview error:', error)
+    // an error happened creating the webview
+  })
 }
 
 /** 恢复窗口大小 */
