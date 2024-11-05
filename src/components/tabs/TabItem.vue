@@ -6,7 +6,7 @@
         :class="{ 'active-tab': isActive }"
         class="relative flex-1 min-w-100px p-8px cursor-pointer rounded-4px bg-[#ebebef] hover:bg-[#dddde1] text-align-center whitespace-nowrap overflow-hidden">
         <span class="select-none">{{ tab.title }} </span>
-        <span v-show="tab.title !== 'Satoshi Tab'" class="absolute right-4px top-10px cursor-pointer z-1">
+        <span v-show="tab.title !== 'Satoshi'" class="absolute right-4px top-10px cursor-pointer z-1">
           <X :size="14" @click.stop="close"
         /></span>
       </div>
