@@ -241,11 +241,18 @@ async function openUrlInNewWindow(event?: { key: string }) {
     if (event?.key !== 'Enter') return
   }
   const targetUrl = searchValue.value.replace(OONS, 'http://')
-  Mitt.emit('ADD_TAB', targetUrl)
+  const openInNewWindow = await confirm(
+    'Do you want to open the webpage in a new window? Click "Cancel" to load it in the current page.'
+  )
+  if (!openInNewWindow) {
+    Mitt.emit('ADD_TAB', targetUrl)
+    return
+  }
   const webview = new WebviewWindow(getRandomInt(1, 10000).toString(), {
     url: targetUrl,
-    width: 960, // 使用 width 属性定义窗口宽度
-    height: 720 // 使用 height 属性定义窗口高度
+    width: 960,
+    height: 720,
+    title: `${OONS.toLocaleUpperCase()}${targetUrl.replace('http://', '')}`
   })
   console.log('webview:', webview)
   // `webview` 进行配置或事件监听
