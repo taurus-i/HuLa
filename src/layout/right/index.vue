@@ -1,23 +1,27 @@
 <template>
   <!-- <main data-tauri-drag-region class="flex-1 bg-[--right-bg-color] h-full w-100vw min-w-600px"> -->
-  <main data-tauri-drag-region class="flex-1 bg-[--right-bg-color] h-full w-100vw">
-    <div class="size-full" style="background: var(--right-theme-bg-color)" data-tauri-drag-region>
+  <main data-tauri-drag-region class="flex-1 bg-[--right-bg-color] h-full w-100vw min-w-300px">
+    <div
+      class="flex flex-col size-full gap-20px"
+      style="background: var(--right-theme-bg-color)"
+      data-tauri-drag-region>
       <ActionBar :current-label="appWindow.label" />
       <!-- 需要判断当前路由是否是信息详情界面 -->
       <ChatBox :active-item="activeItem" v-if="msgBoxShow && isChat && activeItem !== -1" />
 
       <Details :content="DetailsContent" v-else-if="detailsShow && isDetails" />
 
+      <Tabs />
       <!-- 聊天界面背景图标 -->
-      <div v-else class="flex-center size-full select-none">
-        <!-- <img
+      <!-- <div v-else class="flex-center size-full select-none">
+        <img
           v-if="imgTheme === ThemeEnum.DARK && themes.versatile === 'default'"
           class="w-110px h-100px"
           src="@/assets/img/hula_bg_d.svg"
           alt="" />
         <img v-else-if="imgTheme === ThemeEnum.DARK" class="w-110px h-100px" src="@/assets/img/hula-bg-h.png" alt="" />
-        <img v-else class="svg-icon w-110px h-100px" src="@/assets/img/hula_bg_l.png" alt="" /> -->
-      </div>
+        <img v-else class="svg-icon w-110px h-100px" src="@/assets/img/hula_bg_l.png" alt="" />
+      </div> -->
     </div>
   </main>
 </template>

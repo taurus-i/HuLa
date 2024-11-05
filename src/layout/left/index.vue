@@ -5,6 +5,8 @@
       <!-- <p class="text-(16px [--left-text-color]) cursor-default select-none m-[4px_0_16px_0]">HuLa</p> -->
       <!-- 头像模块 -->
       <LeftAvatar />
+      <n-avatar :color="'transparent'" :size="54" src="/logo.png" />
+      <n-avatar :color="'transparent'" :size="54" src="/logo.png" />
       <!-- 导航选项按钮模块 -->
       <ActionList />
       <!-- 编辑资料弹窗 -->

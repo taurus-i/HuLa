@@ -6,7 +6,7 @@
     <div
       data-tauri-drag-region
       v-if="isChat || isDetails || isSearchDetails"
-      class="flex items-center gap-30px p-[12px]">
+      class="flex items-center gap-30px p-12px w-full">
       <div class="flex items-center gap-20px">
         <svg @click="handleShowCenter" class="size-16px color-[--action-bar-icon-color] cursor-pointer">
           <use href="#left-bar"></use>
@@ -21,7 +21,7 @@
           <use href="#refresh"></use>
         </svg>
       </div>
-      <div class="flex-1">
+      <div class="w-[calc(100%-50px)]">
         <n-input
           id="search"
           v-model:value="searchValue"
@@ -42,7 +42,12 @@
           </template>
         </n-input>
       </div>
-      <div class="m-w-100px"><CircleHelp :size="14" class="color-[--action-bar-icon-color] cursor-pointer" /></div>
+      <div class="min-w-48px">
+        <CircleHelp :size="14" class="color-[--action-bar-icon-color] cursor-pointer" />
+        <!-- <span class="absolute right-12px top-8px w-48px h-48px" @click="addTab">
+          <Plus :size="16" />
+        </span> -->
+      </div>
     </div>
     <template v-if="osType === 'windows'">
       <!--  固定在最顶层  -->
@@ -236,7 +241,8 @@ async function openUrlInNewWindow(event?: { key: string }) {
     if (event?.key !== 'Enter') return
   }
   const targetUrl = searchValue.value.replace(OONS, 'http://')
-  const webview = new WebviewWindow('my-label', {
+  Mitt.emit('ADD_TAB', targetUrl)
+  const webview = new WebviewWindow(getRandomInt(1, 10000).toString(), {
     url: targetUrl,
     width: 960, // 使用 width 属性定义窗口宽度
     height: 720 // 使用 height 属性定义窗口高度
@@ -250,6 +256,10 @@ async function openUrlInNewWindow(event?: { key: string }) {
     console.log('Create webview error:', error)
     // an error happened creating the webview
   })
+}
+
+function getRandomInt(min: number, max: number) {
+  return Math.floor(Math.random() * (max - min)) + min
 }
 
 /** 恢复窗口大小 */

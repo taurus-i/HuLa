@@ -7,6 +7,7 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
+    AbBar: typeof import('./../components/tabs/abBar.vue')['default']
     ActionBar: typeof import('./../components/windows/ActionBar.vue')['default']
     ChatBox: typeof import('./../components/rightBox/chatBox/index.vue')['default']
     ChatFooter: typeof import('./../components/rightBox/chatBox/ChatFooter.vue')['default']
@@ -63,6 +64,10 @@ declare module 'vue' {
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     Screenshot: typeof import('./../components/common/Screenshot.vue')['default']
+    TabBar: typeof import('./../components/tabs/TabBar.vue')['default']
+    TabItem: typeof import('./../components/tabs/TabItem.vue')['default']
+    TabPanel: typeof import('./../components/tabs/TabPanel.vue')['default']
+    Tabs: typeof import('./../components/tabs/index.vue')['default']
     Text: typeof import('./../components/rightBox/renderMessage/Text.vue')['default']
   }
 }
