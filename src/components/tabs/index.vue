@@ -24,7 +24,7 @@ interface Tab {
 const tabs = ref<Tab[]>([
   {
     id: 1,
-    title: 'Tab one',
+    title: 'Satoshi',
     content: 'https://great-satoshi.vercel.app/'
   }
 ])

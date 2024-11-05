@@ -248,6 +248,7 @@ async function openUrlInNewWindow(event?: { key: string }) {
     Mitt.emit('ADD_TAB', targetUrl)
     return
   }
+
   const webview = new WebviewWindow(getRandomInt(1, 10000).toString(), {
     url: targetUrl,
     width: 960,
